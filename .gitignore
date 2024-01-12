@@ -1,0 +1,6 @@
+bun.lockb
+node_modules/
+
+/web/src/styl/plugin.styl
+/web/src/index.html
+/web/dist/
