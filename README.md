@@ -1,14 +1,14 @@
 # stripe 按量收费
 
-[迁移到支付元素](https://stripe.com/docs/payments/payment-element/migration?integration-path=future#recurring-add-payment-methods)
+[迁移到支付元素](https:###stripe.com/docs/payments/payment-element/migration?integration-path=future#recurring-add-payment-methods)
 
-[Setup Intents API](https://stripe.com/docs/payments/setup-intents?locale=zh-CN)
+[Setup Intents API](https:###stripe.com/docs/payments/setup-intents?locale=zh-CN)
 
-[了解 SetupIntents 如何在支付流程中工作](https://stripe.com/docs/payments/setupintents/lifecycle?locale=zh-CN)
+[了解 SetupIntents 如何在支付流程中工作](https:###stripe.com/docs/payments/setupintents/lifecycle?locale=zh-CN)
 
 ## webhook 回调
 
-[创建 Webhook 端点，以便在发生异步事件时 Stripe 可通知您的集成](https://dashboard.stripe.com/test/webhooks)
+[创建 Webhook 端点，以便在发生异步事件时 Stripe 可通知您的集成](https:###dashboard.stripe.com/test/webhooks)
 
 在 Stripe 中，SetupIntent 的状态主要有以下几种：
 
@@ -35,22 +35,22 @@ SetupIntent 的主要目的是设置并保存客户的付款方式，以便在�
 
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
-// 假设你已经获取到了 SetupIntent 的 ID
+### 假设你已经获取到了 SetupIntent 的 ID
 let setupIntentId = 'your_setup_intent_id';
 
-// 获取 SetupIntent
+### 获取 SetupIntent
 let setupIntent = await stripe.setupIntents.retrieve(setupIntentId);
 
-// 获取 PaymentMethod 的 ID
+### 获取 PaymentMethod 的 ID
 let paymentMethodId = setupIntent.payment_method;
 
-// 获取 Customer 的 ID
+### 获取 Customer 的 ID
 let customerId = 'your_customer_id';
 
-// 将 PaymentMethod 附加到 Customer
+### 将 PaymentMethod 附加到 Customer
 let paymentMethodAttached = await stripe.paymentMethods.attach(paymentMethodId, {customer: customerId});
 
-// 创建一个 PaymentIntent 来收取费用
+### 创建一个 PaymentIntent 来收取费用
 let paymentIntent = await stripe.paymentIntents.create({
  amount: 2000,
  currency: 'usd',
@@ -68,27 +68,48 @@ let paymentIntent = await stripe.paymentIntents.create({
 Stripe 并没有直接提供卡片管理的 API，但是你可以通过一些技巧来实现这个功能。以下是一些可能的步骤：
 
 列出用户的所有付款方式：你可以使用 stripe.paymentMethods.list 方法来列出用户的所有付款方式。这个方法需要一个 Customer 的 ID 作为参数。
+
+```
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+```
 
-// 假设你已经获取到了 Customer 的 ID
+### 假设你已经获取到了 Customer 的 ID
+
+```
 let customerId = 'your_customer_id';
+```
 
-// 列出用户的所有付款方式
+### 列出用户的所有付款方式
+
+```
 let paymentMethods = await stripe.paymentMethods.list({customer: customerId});
+```
+
 删除用户的付款方式：你可以使用 stripe.paymentMethods.detach 方法来删除用户的一个付款方式。这个方法需要一个 PaymentMethod 的 ID 作为参数。
-// 假设你已经获取到了 PaymentMethod 的 ID
+
+### 假设你已经获取到了 PaymentMethod 的 ID
+
+```
 let paymentMethodId = 'your_payment_method_id';
+```
 
-// 删除用户的一个付款方式
+### 删除用户的一个付款方式
+```
 let detachedPaymentMethod = await stripe.paymentMethods.detach(paymentMethodId);
+```
 更新用户的默认付款方式：你可以使用 stripe.customers.update 方法来更新用户的默认付款方式。这个方法需要一个 Customer 的 ID 和一个 invoice_settings.default_payment_method 属性作为参数。
-// 假设你已经获取到了新的默认付款方式的 ID
-let newDefaultPaymentMethodId = 'new_default_payment_method_id';
 
-// 更新用户的默认付款方式
+### 假设你已经获取到了新的默认付款方式的 ID
+```
+let newDefaultPaymentMethodId = 'new_default_payment_method_id';
+```
+
+### 更新用户的默认付款方式
+```
 let updatedCustomer = await stripe.customers.update(customerId, {
  invoice_settings: {
   default_payment_method: newDefaultPaymentMethodId,
  },
 });
+```
 以上就是如何实现卡片管理的一些基本步骤。请注意，你需要将 'sk_test_3eC39HqLyjWDarjtT1zdp7dc' 替换为你的 Stripe 密钥，同时将 'your_customer_id' 和 'your_payment_method_id' 替换为你的 Customer 的 ID 和 PaymentMethod 的 ID。
