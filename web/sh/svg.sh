@@ -7,7 +7,7 @@ set -ex
 cd $DIR/..
 
 zip() {
-  bunx svgo --config $DIR/svgo.config.cjs -r -f $1 -o $1
+  bun x svgo --config $DIR/svgo.config.cjs -r -f $1 -o $1
 }
 
 zip file
