@@ -3,7 +3,7 @@
 DIR=$(realpath ${0%/*})
 cd $DIR
 
-if ! command -v open &>/dev/null; then
+if command -v open &>/dev/null; then
   if [ ! -d "./localhost.pem" ]; then
     bun x mkcert localhost
   fi
