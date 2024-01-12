@@ -13,5 +13,6 @@ if command -v open &>/dev/null; then
   bash -c "sleep 1 && open https://127.0.0.1:$VITE_PORT" &
 fi
 
-bun x concurrently --kill-others \
-  -r "bun x vite"
+bun x vite
+# bun x concurrently --kill-others \
+# -r "bun x vite"
