@@ -1,5 +1,5 @@
 #!/usr/bin/env coffee
-> @3-/uws/localhost.js:uws
+> @3-/uws
   @3-/uws/Err.js > NOT_FOUND
   @3-/uridir
   ./STRIPE.js
